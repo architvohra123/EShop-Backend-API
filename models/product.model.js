@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const { Category } = require('./category.model');
 
 const productSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
     },
     description: {
         type: String,
@@ -14,7 +13,7 @@ const productSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    image:{
+    image: {
         type: String,
         default: ''
     },
@@ -23,15 +22,16 @@ const productSchema = mongoose.Schema({
     }],
     brand: {
         type: String,
-        default:''
+        default: ''
     },
-    price: {
+    price : {
         type: Number,
-        default: 0
+        default:0
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Category',
+        required:true
     },
     countInStock: {
         type: Number,
@@ -41,20 +41,31 @@ const productSchema = mongoose.Schema({
     },
     rating: {
         type: Number,
-        default: 0
+        default: 0,
     },
     numReviews: {
         type: Number,
-        default: 0
+        default: 0,
     },
     isFeatured: {
-        type: String,
-        default: false
+        type: Boolean,
+        default: false,
     },
     dateCreated: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 })
+
+// to add another attribute id because we find it difficult to use _id while using different systems like frontend
+// so we add another attribute to the schema with name id with value same as that of _id
+// productSchema.virtual('id').get(function () {
+//     return this._id.toHexString();
+// });
+
+// productSchema.set('toJSON', {
+//     virtuals: true,
+// });
+
 
 exports.Product = mongoose.model('Product', productSchema);
