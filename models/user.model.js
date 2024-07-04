@@ -9,9 +9,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    passWordHash: {
+    passwordHash: {
         type: String,
-        reuired: true
+        required: true
     },
     phone: {
         type: String,
@@ -41,13 +41,17 @@ const userSchema = mongoose.Schema({
         type: String,
         default: ''
     }
-})
+});
 
-userSchema.virtual('id').get(function(){
+userSchema.virtual('id').get(function() {
     return this._id.toHexString();
 });
 userSchema.set('toJSON', {
-    virtuals: true
+    virtuals: true,
+    transform: function (doc, ret) {
+        delete ret.__v;
+        return ret;
+    }
 });
 
 exports.User = mongoose.model('User', userSchema);
