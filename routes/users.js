@@ -6,17 +6,17 @@ const jwt = require('jsonwebtoken');
 
 router.get(`/`, async (req, res) =>{
 
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    // const token = req.header('Authorization')?.replace('Bearer ', '');
     
-    try{
-        const user = jwt.verify(token, process.env.SECRET);
-        const u = await User.findById(user.userId)
-        if(!u.isAdmin){
-            return res.status(401).json({message: "The user is not authorized"})
-        }
-    }catch(err){
-        return res.status(500).json({message: "Server error"})
-    }
+    // try{
+    //     const user = jwt.verify(token, process.env.SECRET);
+    //     const u = await User.findById(user.userId)
+    //     if(!u.isAdmin){
+    //         return res.status(401).json({message: "The user is not authorized"})
+    //     }
+    // }catch(err){
+    //     return res.status(500).json({message: "Server error"})
+    // }
 
     const userList = await User.find().select('-passwordHash');
 

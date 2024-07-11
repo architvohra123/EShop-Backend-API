@@ -59,13 +59,13 @@ const productSchema = mongoose.Schema({
 
 // to add another attribute id because we find it difficult to use _id while using different systems like frontend
 // so we add another attribute to the schema with name id with value same as that of _id
-// productSchema.virtual('id').get(function () {
-//     return this._id.toHexString();
-// });
+productSchema.virtual('id').get(function () {
+    return this._id ? this._id.toHexString() : null;
+});
 
-// productSchema.set('toJSON', {
-//     virtuals: true,
-// });
+productSchema.set('toJSON', {
+    virtuals: true,
+});
 
 
 exports.Product = mongoose.model('Product', productSchema);

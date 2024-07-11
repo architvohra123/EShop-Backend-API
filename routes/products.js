@@ -15,7 +15,7 @@ router.get(`/`, async (req, res) =>{
     if(req.query.categories){
         const filter = {category: req.query.categories.split(',')};
     }
-    const productList = await Product.find(filter).select('name image -_id'); // will return only name and image and will exclude the pre defined attribute _id
+    const productList = await Product.find(filter).select('name image _id'); // will return only name and image and will exclude the pre defined attribute _id
 
     if(!productList) {
         res.status(500).json({success: false})
@@ -91,7 +91,7 @@ router.put('/:id', async (req, res) => {
             numReviews: req.body.numReviews,
             isFeatured: req.body.isFeatured
         },
-        { new: true } // without this line the object sent to client is not the updated one but the older one only so by using this we can send the updated one in res.send(category)
+        { new: true } // without this line the object sent to client is not the updated one but the older one only so by using this we can send the updated one in res.send(product)
     )
     if(!product) {
         res.status(500).json({message: "the product cannot be updated"})

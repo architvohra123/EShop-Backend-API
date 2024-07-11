@@ -7,7 +7,7 @@ function authJwt() {
         secret,
         algorithms: ['HS256'],
         isRevoked: isRevoked
-    }).unless({
+    }).unless({     // this means auth is not required on api calls that are listed below
         path: [
             {url: /\/public\/uploads(.*)/ , methods: ['GET', 'OPTIONS'] },
             {url: /\/api\/v1\/products(.*)/ , methods: ['GET', 'OPTIONS'] },
