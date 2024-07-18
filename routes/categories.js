@@ -58,7 +58,7 @@ router.put('/:id', async (req, res) => {
 // delete a particular category
 // api/v1/categories/<id>
 router.delete('/:id', (req, res) => {           // by id
-    Category.findByIdAndRemove(req.params.id)
+    Category.findByIdAndDelete(req.params.id)
     .then(category => {
         if(category){
             return res.status(200).json({success: true, message: 'the category is deleted'})
