@@ -15,6 +15,7 @@ app.options('*', cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authJwt());
+app.use('/public/uploads', express.static(__dirname + '/public/uploads')); // we need to define public/upload as a static folder in the middleware of our app
 app.use(errorHandler);
 
 // Routes

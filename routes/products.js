@@ -88,14 +88,39 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) =>{
     }
     res.send(product);
 
-    // product.save().then((createdProduct)=> {
-    //     res.status(201).json(createdProduct)
-    // }).catch((err)=>{
-    //     res.status(500).json({
-    //         error: err,
-    //         success: false
-    //     })
-    // })
+})
+
+//special api put request for updating image gallery for a product
+router.put(
+    '/gallery-images/:id', 
+    uploadOptions.array('images', 10), 
+    async(req, res) => {
+        
+        if(!mongoose.isValidObjectId(req.params.id)){
+            return res.status(400).send('Invalid Product Id')
+        }
+
+        const files = req.files;
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+        let imagesPaths = [];
+        if(files){
+            files.map(file => {
+                imagesPaths.push(`${basePath}${file.filename}`);
+            })
+        }
+
+        const product = await Product.findByIdAndUpdate(
+            req.params.id,
+            {
+                images: imagesPaths
+            },
+            { new: true } // without this line the object sent to client is not the updated one but the older one only so by using this we can send the updated one in res.send(product)
+        )
+
+        if(!product){
+            return res.status(500).send('The product cannot be created')
+        }
+        res.send(product);
 })
 
 router.put('/:id', async (req, res) => {
